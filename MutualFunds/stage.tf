@@ -16,13 +16,13 @@ resource "null_resource" "test_upload_csv" {
   }
 
   provisioner "local-exec" {
-     command = "snow stage copy ${local.mutual_funds_file_location} @${snowflake_stage_internal.test_internal_stage.fully_qualified_name} --overwrite --temporary-connection"
+    command = "snow stage copy ${local.mutual_funds_file_location} @${snowflake_stage_internal.test_internal_stage.fully_qualified_name} --overwrite --temporary-connection"
 
     environment = {
       SNOWFLAKE_ACCOUNT          = "${local.organization_name}-${local.account_name}"
-      SNOWFLAKE_USER             = "TERRAFORM_SVC"
-      SNOWFLAKE_ROLE             = "SYSADMIN"
-      SNOWFLAKE_AUTHENTICATOR    = "SNOWFLAKE_JWT"
+      SNOWFLAKE_USER             = local.user
+      SNOWFLAKE_ROLE             = local.role
+      SNOWFLAKE_AUTHENTICATOR    = local.authenticator
       SNOWFLAKE_PRIVATE_KEY_PATH = local.private_key_path
     }
   }
